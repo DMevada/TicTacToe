@@ -1,0 +1,9 @@
+This is a N x N Tic Tac Toe game where the user can specify a board size between 3 and 25, inclusive.
+It's a little different than the standard 3 x 3 board, because different numbers within a certain range can be
+specified.
+
+Entering any number greater than 25 or less than 3 will not work.
+To start the game, enter a valid number, and click the "Play!" button.
+This game is intended for humans, and does not include any aritificial intelligence.
+
+Thank you for using N x N TicTacToe!
