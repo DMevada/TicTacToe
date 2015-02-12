@@ -21,7 +21,7 @@ public class TicTacToe implements ActionListener
 	private boolean player2turn;
 	private int size;
 	
-	private char[][] grid;
+	private String[][] grid;
 	private JButton[][] gameGrid;
 	private int count = 0;
 	
@@ -107,9 +107,14 @@ public class TicTacToe implements ActionListener
             return true;
         }
 
-        if (checkDiagonalWin(player))
+        if (checkLeftDiagonal(player))
         {
             return true;
+        }
+        
+        if(checkRightDiagonal(player))
+        {
+        	return true;
         }
         
         return false;
@@ -122,16 +127,40 @@ public class TicTacToe implements ActionListener
 	 {
 		 for (int row = 0; row < size; row++)
 		 {
-			 int total = 0;
+			 int xTotal = 0;
+			 int oTotal = 0;
 			 
 			 for (int column = 0; column < size; column++)
 			 {
-				 total += grid[row][column];
+				 if(!grid[row][column].equals("-"))
+				 {
+					 if(grid[row][column].equals("X"))
+					 {
+						 xTotal++;
+					 }
+					 
+					 if(grid[row][column].equals("O"))
+					 {
+						oTotal++;
+					 }
+				 }
 			 }
-		             
-			 if (total != 0 && total % player == 0) 
+		     
+			 if(player == 'X')
 			 {
-				 return true;
+				 if(xTotal == size)
+				 {
+					 return true;
+				 }
+			 }
+			 
+			 if(player == 'O')
+			 {
+				 if(oTotal == size)
+				 {
+					 System.out.println("Came here");
+					 return true;
+				 }
 			 }
 		 }
 
@@ -145,16 +174,40 @@ public class TicTacToe implements ActionListener
 	 {
 		 for (int column = 0; column < getBoardSize(); column++)
 		 {
-			 int total = 0;
+			 int xTotal = 0;
+			 int oTotal = 0;
 			 
 			 for (int row = 0; row < getBoardSize(); row++)
 			 {
-				 total += grid[row][column];
+				 if(!grid[row][column].equals("-"))
+				 {
+					 if(grid[row][column].equals("X"))
+					 {
+						 xTotal++;
+					 }
+					 
+					 if(grid[row][column].equals("O"))
+					 {
+						oTotal++;
+					 }
+				 }
+			 }
+
+			 if(player == 'X')
+			 {
+				 if(xTotal == size)
+				 {
+					 return true;
+				 }
 			 }
 			 
-			 if (total != 0 && total % player == 0)
+			 if(player == 'O')
 			 {
-				 return true;
+				 if(oTotal == size)
+				 {
+					 System.out.println("Came here");
+					 return true;
+				 }
 			 }
 		 }
 		 
@@ -164,32 +217,85 @@ public class TicTacToe implements ActionListener
 	 /**
 	  * Checks for a win in all of the diagonals.
 	  */
-	 public boolean checkDiagonalWin(char player)
+	 public boolean checkLeftDiagonal(char player)
 	 {
-		 int total = 0;
+		 int xTotal = 0;
+		 int oTotal = 0;
 		 
 		 for (int leftDiagonal = 0; leftDiagonal < getBoardSize(); leftDiagonal++) 
 		 {
-			 total += grid[leftDiagonal][leftDiagonal];
+			 if(!grid[leftDiagonal][leftDiagonal].equals("-"))
+			 {
+				 if(grid[leftDiagonal][leftDiagonal].equals("X"))
+				 {
+					 xTotal++;
+				 }
+				 
+				 if(grid[leftDiagonal][leftDiagonal].equals("O"))
+				 {
+					oTotal++;
+				 }
+			 }
 		 }
 
-		 if (total != 0 && total % player == 0)
+		 if(player == 'X')
 		 {
-			 return true;
+			 if(xTotal == size)
+			 {
+				 return true;
+			 }
 		 }
 		 
-		 total = 0;
+		 if(player == 'O')
+		 {
+			 if(oTotal == size)
+			 {
+				 System.out.println("Came here");
+				 return true;
+			 }
+		 }
+		 
+		 return false;
+	 }
+	 
+	 public boolean checkRightDiagonal(char player)
+	 {
+		 int xTotal = 0;
+		 int oTotal = 0;
 		 
 		 for (int rightDiagonal = 0; rightDiagonal < getBoardSize(); rightDiagonal++)
 		 {
-			 total += grid[rightDiagonal][size - rightDiagonal - 1];
+			 if(!grid[rightDiagonal][size - rightDiagonal - 1].equals("-"))
+			 {
+				 if(grid[rightDiagonal][size - rightDiagonal - 1].equals("X"))
+				 {
+					 xTotal++;
+				 }
+				 
+				 if(grid[rightDiagonal][size - rightDiagonal - 1].equals("O"))
+				 {
+					 oTotal++;
+				 }
+			 }
+		 }
+
+		 if(player == 'X')
+		 {
+			 if(xTotal == size)
+			 {
+				 return true;
+			 }
 		 }
 		 
-		 if (total != 0 && total % player == 0)
+		 if(player == 'O')
 		 {
-		     return true;
-         }
-	
+			 if(oTotal == size)
+			 {
+				 System.out.println("Came here");
+				 return true;
+			 }
+		 }
+		 
 		 return false;
 	 }
 
@@ -279,7 +385,7 @@ public class TicTacToe implements ActionListener
 		JFrame gameframe = new JFrame();
 		JPanel gamePanel = new JPanel();
 		gameGrid = new JButton[size][size];
-		grid = new char[size][size];
+		grid = new String[size][size];
 		
 		//game panel variables
 		final int rows = getBoardSize();
@@ -296,7 +402,7 @@ public class TicTacToe implements ActionListener
 				gameGrid[i][j].setBackground(Color.black);
 				
 				gameGrid[i][j].addActionListener(this);
-				grid[i][j] = ' ';
+				grid[i][j] = "-";
 			}
 		}
 		
@@ -332,9 +438,9 @@ public class TicTacToe implements ActionListener
 					
 					   setPLayer2turn(true);
 					   ((JButton) e.getSource()).setEnabled(false);
-					   grid[i][j] = 'X';
+					   grid[i][j] = "X";
 					   count++;
-					  
+					   
 					   if(checkWin(playerX))
 					   {
 						   JOptionPane.showMessageDialog(null, "Player 1 wins!");
@@ -366,7 +472,7 @@ public class TicTacToe implements ActionListener
 					
 			    	  setPLayer2turn(false);
 			    	  ((JButton) e.getSource()).setEnabled(false);
-			    	  grid[i][j] =  'O';
+			    	  grid[i][j] =  "O";
 			    	  count++;
 			    	  
 			    	  if(checkWin(playerX))
